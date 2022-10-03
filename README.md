@@ -15,3 +15,11 @@
 
 - Between work and personal machines I have to use over half a dozen package managers. This solves a problem I have.
 - It's fun
+
+### install
+
+`curl -sL "https://raw.githubusercontent.com/shanahanjrs/dro/HEAD/scripts/install.sh" | bash`
+
+or
+
+`wget -q "https://raw.githubusercontent.com/shanahanjrs/dro/HEAD/scripts/install.sh" -O - | bash`
