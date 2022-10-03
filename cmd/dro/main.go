@@ -8,20 +8,24 @@ import (
 	"os/exec"
 )
 
-const helpString = `dro
-Author John Shanahan
+const helpString = `   _
+ _| |___ ___
+| . |  _| . |
+|___|_| |___|
+
+Author John Shanahan <shanahan.jrs@gmail.com>
 
 Usage
     dro [action] [package(s)]
 
 Actions
     install    | install chosen package(s)
-	uninstall  | uninstall chosen package(s)
-	search     | searches for package
-	list       | list installed packages
+    uninstall  | uninstall chosen package(s)
+    search     | searches for package
 
 Example
-    dro install vim git`
+    dro install vim git
+`
 
 var validActions = []string{
 	"install",
@@ -73,7 +77,18 @@ func getPackages() []string {
 	return args
 }
 
+func checkHelp() {
+	for _, val := range os.Args[1:] {
+		if (val == "-h") || (val == "--help") {
+			help()
+			os.Exit(0)
+		}
+	}
+}
+
 func main() {
+	checkHelp()
+
 	driverName, err := utils.GetBasePackageManagerName()
 	if err != nil {
 		fmt.Println(err)
