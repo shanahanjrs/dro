@@ -19,19 +19,16 @@ Usage
     dro [action] [package(s)]
 
 Actions
-    install    | install chosen package(s)
-    uninstall  | uninstall chosen package(s)
-    search     | searches for package
+    install           | install chosen package(s)
+    uninstall         | uninstall chosen package(s)
+    search            | searches for package
+
+	--list-supported  | list supported package managers
+	-h, --help        | print this message
 
 Example
     dro install vim git
 `
-
-var validActions = []string{
-	"install",
-	"uninstall",
-	"search",
-}
 
 // prints the help string
 func help() {
@@ -48,7 +45,7 @@ func getAction(driver *drivers.Driver) string {
 
 	// install/uninstall/search/etc...
 	action := args[0]
-	if !utils.In(action, validActions) {
+	if !utils.In(action, utils.GetValidActions) {
 		fmt.Println("Please provide a valid action...")
 		os.Exit(1)
 	}
@@ -86,8 +83,18 @@ func checkHelp() {
 	}
 }
 
+func checkListSupported() {
+	if utils.In("--list-supported", os.Args) {
+		for _, pkgMngr := range utils.GetSupportedPackageManagers() {
+			fmt.Println(pkgMngr)
+		}
+		os.Exit(0)
+	}
+}
+
 func main() {
 	checkHelp()
+	checkListSupported()
 
 	driverName, err := utils.GetBasePackageManagerName()
 	if err != nil {

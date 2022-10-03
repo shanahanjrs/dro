@@ -44,6 +44,13 @@ func GetSupportedPackageManagers() []string {
 	}
 }
 
+var GetValidActions = []string{
+	"install",
+	"uninstall",
+	"search",
+	"--list-supported",
+}
+
 // GetBasePackageManagerName
 // will return the name of a package manager to the caller
 // decides which name to return by first checking if one is specified via
