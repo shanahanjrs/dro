@@ -85,7 +85,7 @@ func checkHelp() {
 
 func checkListSupported() {
 	if utils.In("--list-supported", os.Args) {
-		for _, pkgMngr := range utils.GetSupportedPackageManagers() {
+		for _, pkgMngr := range drivers.GetSupportedPackageManagers() {
 			fmt.Println(pkgMngr)
 		}
 		os.Exit(0)

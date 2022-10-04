@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"github.com/shanahanjrs/dro/internal/drivers"
 	"os"
 	"os/exec"
 )
@@ -35,20 +36,12 @@ func Which(command string) bool {
 
 }
 
-func GetSupportedPackageManagers() []string {
-	return []string{
-		"dnf",
-		"apk",
-		"brew",
-		"pacman",
-	}
-}
-
 var GetValidActions = []string{
 	"install",
 	"uninstall",
 	"search",
 	"--list-supported",
+	"--help", "-h",
 }
 
 // GetBasePackageManagerName
@@ -61,7 +54,7 @@ func GetBasePackageManagerName() (string, error) {
 		return droPkgMngr, nil
 	}
 
-	for _, val := range GetSupportedPackageManagers() {
+	for _, val := range drivers.GetSupportedPackageManagers() {
 		if Which(val) == true {
 			return val, nil
 		}

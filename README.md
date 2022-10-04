@@ -44,3 +44,19 @@ or
 ## documentation
 
 > if the `DRO_PKG_MNGR` env var is not set it will scan the system to find a supported package manager
+
+Supported package managers:
+
+| pkg mngr | install | uninstall | search |
+|----------|---------|-----------|--------|
+| dnf      | X       | X         | X      |
+| apk      | X       | X         | X      |
+| brew     | X       | X         | X      |
+| pacman   | X       | X         | X      |
+| apt      | X       | X         | X      |
+
+
+## coming soon
+
+- more package managers, if one you want is missing please send a PR or open an issue
+- more commands; update/upgrade, list installed packages, etc

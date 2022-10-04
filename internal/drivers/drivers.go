@@ -21,8 +21,20 @@ func LoadDriver(driverName string) (Driver, error) {
 		return brew(), nil
 	case "pacman":
 		return pacman(), nil
+	case "apt":
+		return apt(), nil
 	default:
 		return Driver{}, errors.New("driver not found")
+	}
+}
+
+func GetSupportedPackageManagers() []string {
+	return []string{
+		"dnf",
+		"apk",
+		"brew",
+		"pacman",
+		"apt",
 	}
 }
 
@@ -59,5 +71,14 @@ func pacman() Driver {
 		InstallCmd:   "-S",
 		UninstallCmd: "-R",
 		SearchCmd:    "-Q",
+	}
+}
+
+func apt() Driver {
+	return Driver{
+		Cmd:          "apt",
+		InstallCmd:   "install",
+		UninstallCmd: "remove",
+		SearchCmd:    "search",
 	}
 }
