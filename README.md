@@ -54,6 +54,7 @@ Supported package managers:
 | brew     | X       | X         | X      |
 | pacman   | X       | X         | X      |
 | apt      | X       | X         | X      |
+| zypper   | X       | X         | X      |
 
 
 ## coming soon

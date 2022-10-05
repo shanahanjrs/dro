@@ -23,6 +23,8 @@ func LoadDriver(driverName string) (Driver, error) {
 		return pacman(), nil
 	case "apt":
 		return apt(), nil
+	case "zypper":
+		return zypper(), nil
 	default:
 		return Driver{}, errors.New("driver not found")
 	}
@@ -35,6 +37,7 @@ func GetSupportedPackageManagers() []string {
 		"brew",
 		"pacman",
 		"apt",
+		"zypper",
 	}
 }
 
@@ -80,5 +83,14 @@ func apt() Driver {
 		InstallCmd:   "install",
 		UninstallCmd: "remove",
 		SearchCmd:    "search",
+	}
+}
+
+func zypper() Driver {
+	return Driver{
+		Cmd:          "zypper",
+		InstallCmd:   "in",
+		UninstallCmd: "rm",
+		SearchCmd:    "se",
 	}
 }
