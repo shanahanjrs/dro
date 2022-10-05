@@ -5,10 +5,11 @@ import (
 )
 
 type Driver struct {
-	Cmd          string
-	InstallCmd   string
-	UninstallCmd string
-	SearchCmd    string
+	Cmd              string
+	InstallCmd       []string
+	UninstallCmd     []string
+	SearchCmd        []string
+	ListInstalledCmd []string
 }
 
 func LoadDriver(driverName string) (Driver, error) {
@@ -43,54 +44,60 @@ func GetSupportedPackageManagers() []string {
 
 func dnf() Driver {
 	return Driver{
-		Cmd:          "dnf",
-		InstallCmd:   "install",
-		UninstallCmd: "remove",
-		SearchCmd:    "search",
+		Cmd:              "dnf",
+		InstallCmd:       []string{"install"},
+		UninstallCmd:     []string{"remove"},
+		SearchCmd:        []string{"search"},
+		ListInstalledCmd: []string{"list --installed"},
 	}
 }
 
 func apk() Driver {
 	return Driver{
-		Cmd:          "apk",
-		InstallCmd:   "add",
-		UninstallCmd: "del",
-		SearchCmd:    "search",
+		Cmd:              "apk",
+		InstallCmd:       []string{"add"},
+		UninstallCmd:     []string{"del"},
+		SearchCmd:        []string{"search"},
+		ListInstalledCmd: []string{"info"},
 	}
 }
 
 func brew() Driver {
 	return Driver{
-		Cmd:          "brew",
-		InstallCmd:   "install",
-		UninstallCmd: "uninstall",
-		SearchCmd:    "search",
+		Cmd:              "brew",
+		InstallCmd:       []string{"install"},
+		UninstallCmd:     []string{"uninstall"},
+		SearchCmd:        []string{"search"},
+		ListInstalledCmd: []string{"list"},
 	}
 }
 
 func pacman() Driver {
 	return Driver{
-		Cmd:          "pacman",
-		InstallCmd:   "-S",
-		UninstallCmd: "-R",
-		SearchCmd:    "-Q",
+		Cmd:              "pacman",
+		InstallCmd:       []string{"-S"},
+		UninstallCmd:     []string{"-R"},
+		SearchCmd:        []string{"-Q"},
+		ListInstalledCmd: []string{"-Qe"},
 	}
 }
 
 func apt() Driver {
 	return Driver{
-		Cmd:          "apt",
-		InstallCmd:   "install",
-		UninstallCmd: "remove",
-		SearchCmd:    "search",
+		Cmd:              "apt",
+		InstallCmd:       []string{"install"},
+		UninstallCmd:     []string{"remove"},
+		SearchCmd:        []string{"search"},
+		ListInstalledCmd: []string{"list --installed"},
 	}
 }
 
 func zypper() Driver {
 	return Driver{
-		Cmd:          "zypper",
-		InstallCmd:   "in",
-		UninstallCmd: "rm",
-		SearchCmd:    "se",
+		Cmd:              "zypper",
+		InstallCmd:       []string{"in"},
+		UninstallCmd:     []string{"rm"},
+		SearchCmd:        []string{"se"},
+		ListInstalledCmd: []string{"se -i"},
 	}
 }

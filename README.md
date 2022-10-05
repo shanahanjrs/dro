@@ -4,7 +4,7 @@
 
 ## what
 
-**dro** :: The tiny universal remote for package managers
+**dro** :: The tiny universal frontend for package managers
 
 - Very small 1.5MB binary
 - Provides a practical, universal package manager interface for any system

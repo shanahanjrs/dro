@@ -6,6 +6,7 @@ import (
 	"github.com/shanahanjrs/dro/internal/utils"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 const helpString = `   _
@@ -23,8 +24,8 @@ Actions
     uninstall         | uninstall chosen package(s)
     search            | searches for package
 
-	--list-supported  | list supported package managers
-	-h, --help        | print this message
+    --list-supported  | list supported package managers
+    -h, --help        | print this message
 
 Example
     dro install vim git
@@ -35,30 +36,18 @@ func help() {
 	fmt.Println(helpString)
 }
 
-func getAction(driver *drivers.Driver) string {
-	args := os.Args[1:]
-
-	if len(args) < 1 {
-		fmt.Println("Not enough args...")
-		os.Exit(1)
-	}
-
-	// install/uninstall/search/etc...
-	action := args[0]
-	if !utils.In(action, utils.GetValidActions) {
-		fmt.Println("Please provide a valid action...")
-		os.Exit(1)
-	}
-
-	switch action {
+func getActionCmdFromDriver(actionName string, driver *drivers.Driver) []string {
+	switch actionName {
 	case "install":
 		return driver.InstallCmd
 	case "uninstall":
 		return driver.UninstallCmd
 	case "search":
 		return driver.SearchCmd
+	case "list":
+		return driver.ListInstalledCmd
 	default:
-		return ""
+		return []string{}
 	}
 }
 
@@ -67,7 +56,6 @@ func getPackages() []string {
 
 	if len(args) < 1 {
 		fmt.Println("Not enough args...")
-		help()
 		os.Exit(1)
 	}
 
@@ -93,6 +81,7 @@ func checkListSupported() {
 }
 
 func main() {
+	actionName := utils.GetAction()
 	checkHelp()
 	checkListSupported()
 
@@ -107,19 +96,26 @@ func main() {
 		os.Exit(1)
 	}
 
-	action := getAction(&driver)
+	action := getActionCmdFromDriver(actionName, &driver)
 
-	pkgs := getPackages()
-
-	// build up arg string
+	// start to build up arg string
 	var cmdArgs []string
-	cmdArgs = append(cmdArgs, action)
+	cmdArgs = append(cmdArgs, driver.Cmd)
+	cmdArgs = append(cmdArgs, action...)
 
-	for _, val := range pkgs {
-		cmdArgs = append(cmdArgs, val)
+	// if the action the user specified requires them to specify package names
+	// we need to collect them and add them to the command
+	if utils.DoesActionRequirePackageList(actionName) {
+		pkgs := getPackages()
+		for _, val := range pkgs {
+			cmdArgs = append(cmdArgs, val)
+		}
 	}
 
-	cmd := exec.Command(driver.Cmd, cmdArgs...)
+	cmdString := strings.Join(cmdArgs, " ")
+
+	cmd := exec.Command("/bin/sh", "-c", cmdString)
+
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

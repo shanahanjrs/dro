@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"github.com/shanahanjrs/dro/internal/drivers"
 	"os"
 	"os/exec"
@@ -40,8 +41,43 @@ var GetValidActions = []string{
 	"install",
 	"uninstall",
 	"search",
+	"list",
 	"--list-supported",
 	"--help", "-h",
+}
+
+// GetAction
+// handles counting input args, making sure it's actually valid and then returning the string
+func GetAction() string {
+	if len(os.Args[1:]) < 1 {
+		fmt.Println("Not enough args...")
+		os.Exit(1)
+	}
+
+	action := os.Args[1]
+	if !In(action, GetValidActions) {
+		fmt.Println("Invalid action " + action + "...")
+	}
+
+	return action
+}
+
+// DoesActionRequirePackageList
+// takes an action and returns t/f whether we need to check
+// for packages specified on the cli by the user
+// required: install, uninstall, search
+// !required: list, etc...
+func DoesActionRequirePackageList(action string) bool {
+	requiresPackageList := []string{
+		"install",
+		"uninstall",
+		"search",
+	}
+
+	if In(action, requiresPackageList) {
+		return true
+	}
+	return false
 }
 
 // GetBasePackageManagerName
