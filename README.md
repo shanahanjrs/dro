@@ -37,6 +37,9 @@ or
 #### search for a package
 `dro search <pkg>`
 
+#### list installed packages
+`dro list`
+
 #### list the package managers dro currently supports
 `dro --list-supported`
 
@@ -47,14 +50,14 @@ or
 
 Supported package managers:
 
-| pkg mngr | install | uninstall | search |
-|----------|---------|-----------|--------|
-| dnf      | X       | X         | X      |
-| apk      | X       | X         | X      |
-| brew     | X       | X         | X      |
-| pacman   | X       | X         | X      |
-| apt      | X       | X         | X      |
-| zypper   | X       | X         | X      |
+| pkg mngr | install | uninstall | search | list |
+|----------|---------|-----------|--------|------|
+| dnf      | X       | X         | X      | X    |
+| apk      | X       | X         | X      | X    |
+| brew     | X       | X         | X      | X    |
+| pacman   | X       | X         | X      | X    |
+| apt      | X       | X         | X      | X    |
+| zypper   | X       | X         | X      | X    |
 
 
 ## coming soon
