@@ -51,6 +51,7 @@ var GetValidActions = []string{
 func GetAction() string {
 	if len(os.Args[1:]) < 1 {
 		fmt.Println("Not enough args...")
+		Help()
 		os.Exit(1)
 	}
 
@@ -97,4 +98,32 @@ func GetBasePackageManagerName() (string, error) {
 	}
 
 	return "", errors.New("no installed package manager found")
+}
+
+const helpString = `   _
+ _| |___ ___
+| . |  _| . |
+|___|_| |___|
+
+Author John Shanahan <shanahan.jrs@gmail.com>
+
+Usage
+    dro [action] [package(s)]
+
+Actions
+    install           | install chosen package(s)
+    uninstall         | uninstall chosen package(s)
+    search            | searches for package
+
+    --list-supported  | list supported package managers
+    -h, --help        | print this message
+
+Example
+    dro install vim git
+`
+
+// Help
+// prints the help string
+func Help() {
+	fmt.Println(helpString)
 }

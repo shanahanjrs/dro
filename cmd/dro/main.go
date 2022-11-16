@@ -9,33 +9,6 @@ import (
 	"strings"
 )
 
-const helpString = `   _
- _| |___ ___
-| . |  _| . |
-|___|_| |___|
-
-Author John Shanahan <shanahan.jrs@gmail.com>
-
-Usage
-    dro [action] [package(s)]
-
-Actions
-    install           | install chosen package(s)
-    uninstall         | uninstall chosen package(s)
-    search            | searches for package
-
-    --list-supported  | list supported package managers
-    -h, --help        | print this message
-
-Example
-    dro install vim git
-`
-
-// prints the help string
-func help() {
-	fmt.Println(helpString)
-}
-
 func getActionCmdFromDriver(actionName string, driver *drivers.Driver) []string {
 	switch actionName {
 	case "install":
@@ -55,7 +28,7 @@ func getPackages() []string {
 	args := os.Args[2:]
 
 	if len(args) < 1 {
-		fmt.Println("Not enough args...")
+		utils.Help()
 		os.Exit(1)
 	}
 
@@ -64,8 +37,8 @@ func getPackages() []string {
 
 func checkHelp() {
 	for _, val := range os.Args[1:] {
-		if (val == "-h") || (val == "--help") {
-			help()
+		if (val == "-h") || (val == "--help") || (val == "help") {
+			utils.Help()
 			os.Exit(0)
 		}
 	}
