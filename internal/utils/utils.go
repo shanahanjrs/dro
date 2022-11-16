@@ -8,7 +8,8 @@ import (
 	"os/exec"
 )
 
-// In - Checks if <needle> exists in <haystack>
+// In
+// Checks if <needle> exists in <haystack>
 // ("dog", ["cat" "dog" "bird"]) --> true
 func In[T comparable](needle T, haystack []T) bool {
 	for _, i := range haystack {
@@ -19,7 +20,8 @@ func In[T comparable](needle T, haystack []T) bool {
 	return false
 }
 
-// GetEnv - gets the value of the env var or returns default
+// GetEnv
+// gets the value of the env var or returns default
 func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
@@ -27,7 +29,8 @@ func GetEnv(key, fallback string) string {
 	return fallback
 }
 
-// Which - a dirty version of the unix which command
+// Which
+// a dirty version of the unix which command
 func Which(command string) bool {
 	_, err := exec.Command("which", command).Output()
 	if err != nil {
@@ -43,7 +46,8 @@ var GetValidActions = []string{
 	"search",
 	"list",
 	"--list-supported",
-	"--help", "-h",
+	"--help", "-h", "help",
+	"version", "--version",
 }
 
 // GetAction
@@ -57,7 +61,8 @@ func GetAction() string {
 
 	action := os.Args[1]
 	if !In(action, GetValidActions) {
-		fmt.Println("Invalid action " + action + "...")
+		fmt.Println("Invalid action [" + action + "]...")
+		os.Exit(1)
 	}
 
 	return action
@@ -126,4 +131,10 @@ Example
 // prints the help string
 func Help() {
 	fmt.Println(helpString)
+}
+
+// GetVersion
+// print the current dro version
+func GetVersion() {
+	fmt.Println("0.9.1")
 }

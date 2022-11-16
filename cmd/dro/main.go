@@ -36,8 +36,10 @@ func getPackages() []string {
 }
 
 func checkHelp() {
+	helpStrings := []string{"-h", "--help", "help"}
+
 	for _, val := range os.Args[1:] {
-		if (val == "-h") || (val == "--help") || (val == "help") {
+		if utils.In(val, helpStrings) {
 			utils.Help()
 			os.Exit(0)
 		}
@@ -53,16 +55,32 @@ func checkListSupported() {
 	}
 }
 
+func checkVersion() {
+	versionStrings := []string{"version", "--version"}
+
+	for _, val := range os.Args[1:] {
+		if utils.In(val, versionStrings) {
+			utils.GetVersion()
+			os.Exit(0)
+		}
+	}
+}
+
 func main() {
+	// what does the user want to do; (un)install, search, help, version, etc
 	actionName := utils.GetAction()
 	checkHelp()
 	checkListSupported()
+	checkVersion()
 
+	// which package manager should we use
 	driverName, err := utils.GetBasePackageManagerName()
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+
+	// load up the correct Driver
 	driver, err := drivers.LoadDriver(driverName)
 	if err != nil {
 		fmt.Println("Could not find supported driver")
@@ -87,11 +105,12 @@ func main() {
 
 	cmdString := strings.Join(cmdArgs, " ")
 
+	// prep the cmd object to be used and connect the child proc to the users term
 	cmd := exec.Command("/bin/sh", "-c", cmdString)
-
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
+	// run
 	_ = cmd.Run()
 }
