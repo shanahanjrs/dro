@@ -8,6 +8,8 @@ import (
 	"os/exec"
 )
 
+const VERSION = "0.9.2"
+
 // In
 // Checks if <needle> exists in <haystack>
 // ("dog", ["cat" "dog" "bird"]) --> true
@@ -105,10 +107,10 @@ func GetBasePackageManagerName() (string, error) {
 	return "", errors.New("no installed package manager found")
 }
 
-const helpString = `   _
+var helpString = fmt.Sprintf(`   _
  _| |___ ___
 | . |  _| . |
-|___|_| |___|
+|___|_| |___| %s
 
 Author John Shanahan <shanahan.jrs@gmail.com>
 
@@ -125,7 +127,7 @@ Actions
 
 Example
     dro install vim git
-`
+`, VERSION)
 
 // Help
 // prints the help string
@@ -136,5 +138,5 @@ func Help() {
 // GetVersion
 // print the current dro version
 func GetVersion() {
-	fmt.Println("0.9.1")
+	fmt.Println(VERSION)
 }

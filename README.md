@@ -23,11 +23,15 @@
 
 ## install
 
-`curl -sL "https://raw.githubusercontent.com/shanahanjrs/dro/HEAD/scripts/install.sh" | bash`
+```shell
+curl -fsSL "https://raw.githubusercontent.com/shanahanjrs/dro/HEAD/scripts/install.sh" | sh
+```
 
 or
 
-`wget -q "https://raw.githubusercontent.com/shanahanjrs/dro/HEAD/scripts/install.sh" -O - | bash`
+```shell
+wget -q0- "https://raw.githubusercontent.com/shanahanjrs/dro/HEAD/scripts/install.sh" | sh
+```
 
 
 ## usage
