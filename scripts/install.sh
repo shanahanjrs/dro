@@ -20,7 +20,7 @@ install_dro() {
 
   chmod +x /tmp/dro || bail
 
-  sudo mv /tmp/dro /usr/local/bin
+  mv /tmp/dro /usr/local/bin
 }
 
 install_dro
